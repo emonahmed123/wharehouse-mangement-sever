@@ -30,9 +30,15 @@ async function run() {
             const query ={_id:  ObjectId(id)}
             const bike = await bikeCollection.findOne(query) 
           res.send(bike)
- 
- 
-      })
+        })
+    //  post items
+
+    app.post('/bike', async(req,res)=>{
+       const newBike = req.body
+      const result =await bikeCollection.insertOne(newBike)
+      res.send(result);
+
+      });
 
     }
   finally{
