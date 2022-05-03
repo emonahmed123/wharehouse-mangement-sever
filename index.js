@@ -11,7 +11,7 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.njuiq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-console.log(uri)
+
 async function run() {
     try{
         await client.connect();
@@ -29,7 +29,7 @@ async function run() {
             const id =req.params.id;
             const query ={_id:  ObjectId(id)}
             const bike = await bikeCollection.findOne(query) 
-          res.send(bike)
+           res.send(bike)
         })
     //  post items
 
@@ -39,6 +39,17 @@ async function run() {
       res.send(result);
 
       });
+
+            //        delete
+
+            app.delete('/bike/:id',async(req,res)=>{
+              const id =req.params.id
+              const query ={_id:ObjectId(id)}
+              const result =await bikeCollection.deleteOne(query)
+              res.send(result)
+          });
+
+    //deploy to heroku main
 
     }
   finally{
