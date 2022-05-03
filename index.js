@@ -50,6 +50,9 @@ async function run() {
           });
 
     //deploy to heroku main
+     app.get('/emon',(req,res)=>{
+       res.send('heroku done')
+     });
 
     }
   finally{
