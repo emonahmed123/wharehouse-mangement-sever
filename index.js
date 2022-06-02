@@ -16,7 +16,7 @@ async function run() {
     try{
         await client.connect();
         const bikeCollection =client.db('emonbikes').collection('bike');
-                      console.log('all cleare')
+                      
       
         app.get('/bike',async(req,res)=>{
               const query={};
@@ -40,6 +40,24 @@ async function run() {
 
       });
 
+    // put items
+    app.put('/bike/:id',async(req,res)=>{
+      const id =req.params.id;
+      const updateItems= req.body;
+      const quantity =updateItems.newQuantity
+      const filter ={_id:ObjectId(id)};
+      const option ={upsert:true}
+      const upadateDoc ={
+        $set:{
+          quantity:quantity
+        }
+      }
+      const result= await bikeCollection.updateOne(filter,upadateDoc,option)
+      res.send(result)
+    })
+
+
+
             //        delete
 
             app.delete('/bike/:id',async(req,res)=>{
@@ -53,7 +71,7 @@ async function run() {
      app.get('/emon',(req,res)=>{
        res.send('heroku done')
      });
-
+    //  https://intense-citadel-51923.herokuapp.com/
     }
   finally{
 
